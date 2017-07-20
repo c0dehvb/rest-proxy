@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:bean
+        xmlns="http://www.midea.com/cmms/rest-proxy-config"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:beans="http://www.springframework.org/schema/beans"
+        xsi:schemaLocation="http://www.midea.com/cmms/rest-proxy-config framework/rest-proxy-config.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--<service class="com.midea.cmmessage.core.api.PictureServiceFacade" mapping="/picture">-->
+        <!--<action name="save" method="POST" sign="true">-->
+            <!--<arg requestBody="true"/>-->
+        <!--</action>-->
+
+        <!--<action name="update" method="PUT" mapping="/{id}">-->
+            <!--<arg requestBody="true"/>-->
+        <!--</action>-->
+
+        <!--<action name="delete" method="POST" mapping="/delete">-->
+            <!--<arg requestBody="true"/>-->
+        <!--</action>-->
+
+        <!--<action name="getById" method="GET" mapping="/{id}">-->
+            <!--<arg param="id" pathVariable="true"/>-->
+        <!--</action>-->
+
+        <!--<action name="page" method="GET" mapping="/page">-->
+            <!--<arg param="teamId"/>-->
+            <!--<arg param="name" default=""/>-->
+            <!--<arg param="startTime"/>-->
+            <!--<arg param="endTime"/>-->
+            <!--<arg param="pageIndex" default="1"/>-->
+            <!--<arg param="pageSize" default="20"/>-->
+        <!--</action>-->
+    <!--</service>-->
+
+    <!--<cors id="cors_1">-->
+        <!--<allow-origins>http://cmms.midea.com</allow-origins>-->
+        <!--<allow-methods>GET, POST, PUT, DELETE, PATCH, OPTIONS</allow-methods>-->
+        <!--<allow-headers>DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,token</allow-headers>-->
+    <!--</cors>-->
+</beans:bean>

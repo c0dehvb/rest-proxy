@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:dp="http://www.midea.com/cmms/rest-proxy-config"
+        targetNamespace="http://www.midea.com/cmms/rest-proxy-config"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+    <xsd:import namespace="http://www.springframework.org/schema/beans" />
+
+    <!--<xsd:element name="rest-proxy">-->
+        <!--<xsd:complexType>-->
+            <!--<xsd:sequence>-->
+                <!--<xsd:element name="service" minOccurs="0" maxOccurs="unbounded" type="dp:service-type"/>-->
+            <!--</xsd:sequence>-->
+        <!--</xsd:complexType>-->
+    <!--</xsd:element>-->
+
+    <xsd:element name="service">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="action" minOccurs="0" maxOccurs="unbounded" type="dp:action-type"/>
+            </xsd:sequence>
+
+            <xsd:attribute name="sign" type="xsd:boolean" default="false"/>
+            <xsd:attribute name="class" use="required" type="xsd:string"/>
+            <xsd:attribute name="mapping" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:complexType name="action-type">
+        <xsd:sequence>
+            <xsd:element name="arg" minOccurs="0" maxOccurs="unbounded" type="dp:arg-type"/>
+        </xsd:sequence>
+
+        <xsd:attribute name="method" use="required">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="GET"/>
+                    <xsd:enumeration value="get"/>
+                    <xsd:enumeration value="POST"/>
+                    <xsd:enumeration value="post"/>
+                    <xsd:enumeration value="DELETE"/>
+                    <xsd:enumeration value="delete"/>
+                    <xsd:enumeration value="PUT"/>
+                    <xsd:enumeration value="put"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+
+        <xsd:attribute name="name" use="required" type="xsd:string"/>
+        <xsd:attribute name="cors-ref" type="xsd:IDREF"/>
+        <xsd:attribute name="sign" type="xsd:boolean" default="false"/>
+        <xsd:attribute name="mapping" type="xsd:string"/>
+    </xsd:complexType>
+
+    <xsd:complexType name="arg-type">
+        <xsd:attribute name="type" type="xsd:string" use="optional"/>
+        <xsd:attribute name="default" type="xsd:string" use="optional"/>
+        <xsd:attribute name="param" type="xsd:string" use="optional"/>
+        <xsd:attribute name="requestBody" type="xsd:boolean" default="false"/>
+        <xsd:attribute name="pathVariable" type="xsd:boolean" default="false"/>
+        <xsd:attribute name="dateFormat" type="xsd:string"/>
+    </xsd:complexType>
+
+    <xsd:element name="cors">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="allow-origins" type="xsd:string" minOccurs="0" default="*"/>
+                <xsd:element name="allow-methods" type="xsd:string" minOccurs="0" default="*"/>
+                <xsd:element name="allow-headers" type="xsd:string" minOccurs="0" default="*"/>
+                <xsd:element name="allow-credentials" type="xsd:boolean" minOccurs="0" default="true"/>
+            </xsd:sequence>
+
+            <xsd:attribute name="id" type="xsd:ID"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <!--<xsd:element name="cors-group">-->
+        <!--<xsd:complexType>-->
+            <!--<xsd:sequence>-->
+                <!--<xsd:element name="cors" minOccurs="0" maxOccurs="unbounded">-->
+                    <!--<xsd:complexType>-->
+                        <!--<xsd:sequence minOccurs="0">-->
+                            <!--<xsd:element name="allow-origins" type="xsd:string" default="*" maxOccurs="1"/>-->
+                            <!--<xsd:element name="allow-methods" type="xsd:string" default="*" maxOccurs="1"/>-->
+                            <!--<xsd:element name="allow-headers" type="xsd:string" default="*" maxOccurs="1"/>-->
+                            <!--<xsd:element name="allow-credentials" type="xsd:boolean" default="true" maxOccurs="1"/>-->
+                        <!--</xsd:sequence>-->
+
+                        <!--<xsd:attribute name="ref" type="xsd:IDREF"/>-->
+                    <!--</xsd:complexType>-->
+                <!--</xsd:element>-->
+            <!--</xsd:sequence>-->
+
+            <!--<xsd:attribute name="id" type="xsd:ID"/>-->
+        <!--</xsd:complexType>-->
+    <!--</xsd:element>-->
+</xsd:schema>

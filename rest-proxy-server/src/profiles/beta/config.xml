@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:bean
+        xmlns="http://www.midea.com/cmms/rest-proxy-config"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:beans="http://www.springframework.org/schema/beans"
+        xsi:schemaLocation="http://www.midea.com/cmms/rest-proxy-config framework/rest-proxy-config.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <service class="com.midea.cmmessage.core.api.PictureServiceFacade" mapping="/picture">
+        <action name="save" method="POST" sign="true">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="update" method="PUT" mapping="/{id}">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="delete" method="POST" mapping="/delete">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="getById" method="GET" mapping="/{id}">
+            <arg param="id" pathVariable="true"/>
+        </action>
+
+        <action name="page" method="GET" mapping="/page">
+            <arg param="teamId"/>
+            <arg param="name" default=""/>
+            <arg param="startTime"/>
+            <arg param="endTime"/>
+            <arg param="pageIndex" default="1"/>
+            <arg param="pageSize" default="20"/>
+        </action>
+    </service>
+
+    <service class="com.midea.cmmessage.core.api.AudioServiceFacade" mapping="/audio">
+        <action name="save" method="POST">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="update" method="PUT" mapping="/{id}">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="delete" method="POST" mapping="/delete">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="getById" method="GET" mapping="/{id}">
+            <arg param="id" pathVariable="true"/>
+        </action>
+
+        <action name="page" method="GET" mapping="/page">
+            <arg param="teamId"/>
+            <arg param="name" default=""/>
+            <arg param="startTime"/>
+            <arg param="endTime"/>
+            <arg param="pageIndex" default="1"/>
+            <arg param="pageSize" default="20"/>
+        </action>
+    </service>
+
+    <service class="com.midea.cmmessage.core.api.VideoServiceFacade" mapping="/video">
+        <action name="save" method="POST">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="update" method="PUT" mapping="/{id}">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="delete" method="POST" mapping="/delete">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="getById" method="GET" mapping="/{id}">
+            <arg param="id" pathVariable="true"/>
+        </action>
+
+        <action name="page" method="GET" mapping="/page">
+            <arg param="teamId"/>
+            <arg param="name" default=""/>
+            <arg param="startTime"/>
+            <arg param="endTime"/>
+            <arg param="pageIndex" default="1"/>
+            <arg param="pageSize" default="20"/>
+        </action>
+    </service>
+
+    <service class="com.midea.cmmessage.core.api.ArticleServiceFacade" mapping="/article">
+        <action name="save" method="POST">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="update" method="PUT" mapping="/{id}">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="delete" method="POST" mapping="/delete">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="getById" method="GET" mapping="/{id}">
+            <arg param="id" pathVariable="true"/>
+        </action>
+
+        <action name="page" method="GET" mapping="/page">
+            <arg param="teamId"/>
+            <arg param="title" default=""/>
+            <arg param="startTime"/>
+            <arg param="endTime"/>
+            <arg param="pageIndex" default="1"/>
+            <arg param="pageSize" default="20"/>
+        </action>
+
+        <action method="GET" name="getArticleAbstractById" mapping="/abstract">
+            <arg param="id" pathVariable="true"/>
+        </action>
+
+        <action method="GET" name="getArticleContentById" mapping="/content">
+            <arg param="id" pathVariable="true"/>
+        </action>
+    </service>
+
+    <service class="com.midea.cmmessage.core.api.ExternalLinkServiceFacade" mapping="/externalLink">
+        <action name="save" method="POST">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="update" method="PUT" mapping="/{id}">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="delete" method="POST" mapping="/delete">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="getById" method="GET" mapping="/{id}">
+            <arg param="id" pathVariable="true"/>
+        </action>
+
+        <action name="page" method="GET" mapping="/page">
+            <arg param="teamId"/>
+            <arg param="title" default=""/>
+            <arg param="startTime"/>
+            <arg param="endTime"/>
+            <arg param="pageIndex" default="1"/>
+            <arg param="pageSize" default="20"/>
+        </action>
+    </service>
+
+    <service class="com.midea.cmmessage.core.api.SnapshotServiceFacade" mapping="/snapshot, /snapshot2">
+        <action name="save" method="POST">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="delete" method="POST" mapping="/delete">
+            <arg param="deleteForm"/>
+        </action>
+
+        <action name="getById" method="GET" mapping="/{id}">
+            <arg param="id" pathVariable="true"/>
+        </action>
+
+        <action name="page" method="post" mapping="/page, /pages">
+            <arg param="teamId"/>
+            <arg param="type"/>
+            <arg param="title" default=""/>
+            <arg param="startTime" dateFormat="yyyyMMddHHmmss"/>
+            <arg param="endTime"/>
+            <arg param="pageIndex" default="1"/>
+            <arg param="pageSize" default="20"/>
+        </action>
+
+        <action method="GET" name="getContentById" mapping="/content">
+            <arg param="id" pathVariable="true"/>
+        </action>
+
+        <action method="GET" name="getContentWithStatistics" mapping="/contentWithStatistics/{channelCode}">
+            <arg param="channelCode" pathVariable="true"/>
+        </action>
+    </service>
+
+    <service class="com.midea.cmmessage.core.api.ChannelServiceFacade" mapping="/channel">
+        <action name="save" method="POST">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="update" method="PUT" mapping="/{id}">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="delete" method="POST" mapping="/delete">
+            <arg requestBody="true"/>
+        </action>
+
+        <action name="getBySnapshotId" method="GET" mapping="/{snapshotId}">
+            <arg param="snapshotId" pathVariable="true"/>
+        </action>
+
+        <action name="buildShortLink" method="POST" mapping="/buildShortLink">
+            <arg param="id"/>
+            <arg param="teamId"/>
+        </action>
+    </service>
+    
+    <!-- sample-project -->
+    <service class="com.midea.cmms.sample.api.IntegerCalcServiceFacade" mapping="/int">
+        <action method="post" name="add" mapping="/add" cors-ref="cors_1">
+            <arg param="a" />
+            <arg param="b" />
+        </action>
+
+        <action method="post" name="sub" mapping="/sub">
+            <arg param="a" />
+            <arg param="b" />
+        </action>
+
+        <action method="post" name="mul" mapping="/mul">
+            <arg param="a" />
+            <arg param="b" />
+        </action>
+
+        <action method="post" name="div" mapping="/div">
+            <arg param="a" />
+            <arg param="b" />
+        </action>
+
+        <action method="post" name="sum" mapping="/sum">
+            <arg requestBody="true"/>
+        </action>
+    </service>
+
+    <service class="com.midea.cmms.sample.api.FactionCalcServiceFacade" mapping="/faction">
+        <action method="post" name="add" mapping="/add" cors-ref="cors_1">
+            <arg param="a" />
+            <arg param="b" />
+        </action>
+
+        <action method="post" name="sub" mapping="/sub">
+            <arg param="a" />
+            <arg param="b" />
+        </action>
+
+        <action method="post" name="mul" mapping="/mul">
+            <arg param="a" />
+            <arg param="b" />
+        </action>
+
+        <action method="post" name="div" mapping="/div">
+            <arg param="a" />
+            <arg param="b" />
+        </action>
+
+        <action method="post" name="sum" mapping="/sum">
+            <arg requestBody="true" />
+        </action>
+    </service>
+
+    <!-- 跨域配置定义 -->
+    <cors id="cors_1">
+        <allow-origins>http://localhost:8000,    http://localhost:7999</allow-origins>
+        <allow-methods>GET, POST, PUT, DELETE, PATCH, OPTIONS</allow-methods>
+        <allow-headers>DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,token</allow-headers>
+    </cors>
+
+    <cors id="cors_2">
+        <allow-origins>http://example.com</allow-origins>
+        <allow-methods>*</allow-methods>
+        <allow-headers>*</allow-headers>
+        <allow-credentials>true</allow-credentials>
+    </cors>
+
+    <cors id="cors_3">
+        <allow-origins>http://cmms.midea.com</allow-origins>
+        <allow-methods>GET, POST, PUT, DELETE, PATCH, OPTIONS</allow-methods>
+        <allow-headers>DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,token</allow-headers>
+    </cors>
+</beans:bean>

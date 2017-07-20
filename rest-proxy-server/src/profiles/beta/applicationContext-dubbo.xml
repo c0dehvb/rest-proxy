@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://code.alibabatech.com/schema/dubbo
+	http://code.alibabatech.com/schema/dubbo/dubbo.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:config.properties"/>
+
+    <dubbo:application name="rest_proxy_consumer"/>
+    <dubbo:consumer check="false" />
+
+    <dubbo:registry address="${dubbo.registry.address}" />
+
+    <!-- 消息中心 -->
+    <dubbo:reference id="messageServiceFacade" interface="com.midea.cmmessage.core.api.MessageServiceFacade" retries="0"/>
+    <dubbo:reference id="audioService" interface="com.midea.cmmessage.core.api.AudioServiceFacade" timeout="10000"/>
+    <dubbo:reference id="pictureService" interface="com.midea.cmmessage.core.api.PictureServiceFacade" timeout="10000"/>
+    <dubbo:reference id="videoService" interface="com.midea.cmmessage.core.api.VideoServiceFacade" timeout="10000"/>
+    <dubbo:reference id="articleService" interface="com.midea.cmmessage.core.api.ArticleServiceFacade" timeout="10000"/>
+    <dubbo:reference id="externalLinkService" interface="com.midea.cmmessage.core.api.ExternalLinkServiceFacade" timeout="10000"/>
+    <dubbo:reference id="snapshotServiceFacade" interface="com.midea.cmmessage.core.api.SnapshotServiceFacade" timeout="10000"/>
+    <dubbo:reference id="channelServiceFacade" interface="com.midea.cmmessage.core.api.ChannelServiceFacade" timeout="10000"/>
+
+    <!-- sample-project -->
+    <dubbo:reference id="factionCalcServiceFacade" interface="com.midea.cmms.sample.api.FactionCalcServiceFacade" timeout="10000"/>
+    <dubbo:reference id="integerCalcServiceFacade" interface="com.midea.cmms.sample.api.IntegerCalcServiceFacade" timeout="10000"/>
+</beans>
