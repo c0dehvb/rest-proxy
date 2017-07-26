@@ -93,8 +93,6 @@ public class HandleMethod {
 
     @Override
     public String toString() {
-        return "HandleMethod{" +
-                "method=" + serviceClassName + "." + method.getName() +
-                '}';
+        return serviceClassName + "." + method.getName();
     }
 }

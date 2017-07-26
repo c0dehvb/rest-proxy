@@ -6,6 +6,7 @@ import com.midea.cmms.rest.proxy.server.WebRequest;
 import com.midea.cmms.rest.proxy.server.exception.MethodArgumentHandleException;
 import com.midea.cmms.rest.proxy.server.mvc.method.HandleMethod;
 import com.midea.cmms.rest.proxy.server.mvc.method.HttpParameterInfo;
+import org.springframework.core.Ordered;
 import org.springframework.util.StreamUtils;
 
 import javax.servlet.ServletInputStream;
@@ -36,6 +37,6 @@ public class RequestBodyMethodArgumentResolver extends AbstractMethodArgumentRes
 
     @Override
     public int getOrder() {
-        return 0;
+        return Ordered.LOWEST_PRECEDENCE-2;
     }
 }

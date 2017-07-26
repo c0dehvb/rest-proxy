@@ -3,6 +3,7 @@ package com.midea.cmms.rest.proxy.server.mvc.argument;
 import com.midea.cmms.rest.proxy.server.WebRequest;
 import com.midea.cmms.rest.proxy.server.mvc.method.HandleMethod;
 import com.midea.cmms.rest.proxy.server.mvc.method.HttpParameterInfo;
+import org.springframework.core.Ordered;
 
 /**
  * Created by liyilin on 2017/7/14.
@@ -11,9 +12,9 @@ public class ComplexMethodArgumentResolver implements MethodArgumentResolver {
     private HttpRequestParameterMethodArgumentResolver httpRequestParameterMethodArgumentResolver;
     private JsonBodyMethodArgumentResolver jsonBodyMethodArgumentResolver;
 
-    public ComplexMethodArgumentResolver() {
-        httpRequestParameterMethodArgumentResolver = new HttpRequestParameterMethodArgumentResolver();
-        jsonBodyMethodArgumentResolver = new JsonBodyMethodArgumentResolver();
+    public ComplexMethodArgumentResolver(HttpRequestParameterMethodArgumentResolver a, JsonBodyMethodArgumentResolver b) {
+        httpRequestParameterMethodArgumentResolver = a;
+        jsonBodyMethodArgumentResolver = b;
     }
 
     @Override
@@ -45,7 +46,7 @@ public class ComplexMethodArgumentResolver implements MethodArgumentResolver {
 
     @Override
     public int getOrder() {
-        return 0;
+        return Ordered.LOWEST_PRECEDENCE - 1;
     }
 
     public HttpRequestParameterMethodArgumentResolver getHttpRequestParameterMethodArgumentResolver() {

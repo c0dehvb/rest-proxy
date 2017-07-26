@@ -2,9 +2,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean id="systemProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-        <property name="location" value="classpath:config.properties"/>
-    </bean>
 
+    <bean id="poolingHttpClient" class="com.midea.cmms.base.http.PoolingHttpClient"
+          autowire="byName" init-method="init" destroy-method="destroy"/>
+
+    <import resource="applicationContext-redis.xml"/>
     <import resource="applicationContext-dubbo.xml"/>
 </beans>

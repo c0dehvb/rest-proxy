@@ -36,7 +36,7 @@ public class InterceptorProxy implements Interceptor {
 
         for (Interceptor interceptor : interceptors) {
             interceptor.init(servletContext);
-            LOG.info("初始化" + interceptor.getClass() + "成功");
+            LOG.info("初始化" + interceptor.getClass().getName() + "成功");
         }
     }
 

@@ -11,6 +11,7 @@ public class HttpParameterInfo {
     private String defaultValue = null;
     private boolean requestBody = false;
     private boolean pathVariable = false;
+    private boolean appSign = false;
     private String dateFormat;
 
     public HttpParameterInfo(int index) {
@@ -75,5 +76,13 @@ public class HttpParameterInfo {
 
     public void setDateFormat(String dateFormat) {
         this.dateFormat = dateFormat;
+    }
+
+    public boolean isAppSign() {
+        return appSign;
+    }
+
+    public void setAppSign(boolean appSign) {
+        this.appSign = appSign;
     }
 }

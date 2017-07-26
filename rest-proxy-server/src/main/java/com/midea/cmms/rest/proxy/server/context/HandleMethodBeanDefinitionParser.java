@@ -214,6 +214,7 @@ public class HandleMethodBeanDefinitionParser implements BeanDefinitionParser {
         @XmlAttr("required") boolean required = false;
         @XmlAttr("requestBody") boolean requestBody = false;
         @XmlAttr("default") String defaultValue;
+        @XmlAttr("appSign") boolean appSign = false;
         @XmlAttr("dateFormat") String dateFormat;
     }
 }

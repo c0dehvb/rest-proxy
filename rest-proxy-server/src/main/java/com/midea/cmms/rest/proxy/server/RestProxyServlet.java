@@ -1,9 +1,6 @@
 package com.midea.cmms.rest.proxy.server;
 
-import com.midea.cmms.rest.proxy.server.exception.CorsException;
-import com.midea.cmms.rest.proxy.server.exception.MethodHandleMappingException;
-import com.midea.cmms.rest.proxy.server.exception.MethodArgumentHandleException;
-import com.midea.cmms.rest.proxy.server.exception.ViewResolveException;
+import com.midea.cmms.rest.proxy.server.exception.*;
 import com.midea.cmms.rest.proxy.server.mvc.interceptor.Interceptor;
 import com.midea.cmms.rest.proxy.server.mvc.interceptor.InterceptorChain;
 import com.midea.cmms.rest.proxy.server.mvc.interceptor.InterceptorProxy;
@@ -18,24 +15,15 @@ import com.midea.cmms.rest.proxy.server.mvc.view.ViewResolverManager;
 import com.midea.cmms.rest.proxy.server.mvc.method.ContextMethodMappingHandler;
 import com.midea.cmms.rest.proxy.server.mvc.method.HttpParameterInfo;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.BeanInitializationException;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.OrderComparator;
 import org.springframework.core.Ordered;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Rest代理Servlet
@@ -44,28 +32,6 @@ import java.util.Properties;
  */
 public class RestProxyServlet extends ContextServlet {
     private static final Logger LOG = Logger.getLogger(RestProxyServlet.class);
-
-    private static final String DEFAULT_STRATEGIES_PATH = "framework/RestProxyServlet.properties";
-
-    private static final String METHOD_ARGUMENT_RESOLVERS_PROP = "methodArgumentResolvers";
-
-    private static final String VIEW_RESOLVERS_PROP = "viewResolvers";
-
-    private static final String HANDLE_EXCEPTION_RESOLVERS_PROP = "handleExceptionResolvers";
-
-    private static final String INTERCEPTORS_PROP = "interceptors";
-
-    private static final Properties defaultStrategies;
-
-    static {
-        try {
-            Resource resource = new ClassPathResource(DEFAULT_STRATEGIES_PATH);
-            defaultStrategies = PropertiesLoaderUtils.loadProperties(resource);
-        }
-        catch (IOException ex) {
-            throw new IllegalStateException("Could not load 'RestProxyServlet.properties': " + ex.getMessage());
-        }
-    }
 
     private MethodMappingHandler methodMappingHandler;
     private MethodArgumentResolverManager methodArgumentResolverManager;
@@ -80,22 +46,22 @@ public class RestProxyServlet extends ContextServlet {
 
     private void initMethodArgumentResolvers() {
         LOG.info("初始化MethodArgumentResolvers");
-        List<MethodArgumentResolver> methodArgumentResolverList = initServletListBean(METHOD_ARGUMENT_RESOLVERS_PROP);
-        methodArgumentResolverManager = createBean(getWebApplicationContext(), MethodArgumentResolverManager.class);
+        List<MethodArgumentResolver> methodArgumentResolverList = initServletListBean(MethodArgumentResolver.class);
+        methodArgumentResolverManager = new MethodArgumentResolverManager();
         methodArgumentResolverManager.setMethodArgumentResolvers(methodArgumentResolverList);
     }
 
     private void initViewResolvers() {
         LOG.info("初始化ViewResolvers");
-        List<ViewResolver> viewResolvers = initServletListBean(VIEW_RESOLVERS_PROP);
-        viewResolverManager = createBean(getWebApplicationContext(), ViewResolverManager.class);
+        List<ViewResolver> viewResolvers = initServletListBean(ViewResolver.class);
+        viewResolverManager = new ViewResolverManager();
         viewResolverManager.setViewResolvers(viewResolvers);
     }
 
     private void initHandleExcpetionResolvers() {
         LOG.info("初始化HandleExceptionResolvers");
-        List<HandleExceptionResolver> handleExceptionResolvers = initServletListBean(HANDLE_EXCEPTION_RESOLVERS_PROP);
-        handleExceptionResolverManager = createBean(getWebApplicationContext(), HandleExceptionResolverManager.class);
+        List<HandleExceptionResolver> handleExceptionResolvers = initServletListBean(HandleExceptionResolver.class);
+        handleExceptionResolverManager = new HandleExceptionResolverManager();
         handleExceptionResolverManager.setHandleExceptionResolvers(handleExceptionResolvers);
     }
 
@@ -103,8 +69,7 @@ public class RestProxyServlet extends ContextServlet {
         LOG.info("初始化Interceptors");
         interceptorProxy = new InterceptorProxy();
 
-        HandleMethodInvokeInterceptor handleMethodInvokeInterceptor =
-                createBean(getWebApplicationContext(), HandleMethodInvokeInterceptor.class);
+        HandleMethodInvokeInterceptor handleMethodInvokeInterceptor = new HandleMethodInvokeInterceptor();
         handleMethodInvokeInterceptor.dubboServlet = this;
 
         try {
@@ -115,30 +80,16 @@ public class RestProxyServlet extends ContextServlet {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private <T extends Ordered> List<T> initServletListBean(String propertyName) {
-        String prop = defaultStrategies.getProperty(propertyName);
-        String[] classes = StringUtils.commaDelimitedListToStringArray(prop);
-        List<T> list = new ArrayList<>();
-
-        for (String className : classes) {
-            try {
-                Class<?> clazz = Class.forName(className);
-                T bean = (T) getWebApplicationContext().getAutowireCapableBeanFactory().createBean(clazz);
-                list.add(bean);
-                LOG.info("初始化" + clazz.getName() + "成功");
-            } catch (ClassNotFoundException e) {
-                throw new BeanInitializationException("找不到类：" + className, e);
-            }
+    private <T extends Ordered> List<T> initServletListBean(Class<T> clazz) {
+        Map<String, T> beansOfType = getWebApplicationContext().getBeansOfType(clazz);
+        Collection<T> collection = beansOfType.values();
+        List<T> list = new ArrayList<>(collection.size());
+        for (T t : collection) {
+            list.add(t);
+            LOG.info("初始化" + t.getClass().getName());
         }
-
         OrderComparator.sort(list);
-
         return list;
-    }
-
-    private <T> T createBean(ApplicationContext context, Class<T> beanClass) {
-        return context.getAutowireCapableBeanFactory().createBean(beanClass);
     }
 
     @Override
@@ -155,7 +106,7 @@ public class RestProxyServlet extends ContextServlet {
             initInterceptors();
         } catch (Throwable e) {
             LOG.error("Servlet初始化错误：" + e.getMessage());
-            System.exit(0);
+//            System.exit(0);
         }
 
         LOG.info("初始化结束");
@@ -177,6 +128,9 @@ public class RestProxyServlet extends ContextServlet {
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             resp.setStatus(400);
+            handleExceptionResolverManager.handle(webRequest, webResponse, e);
+        } catch (AppSignError e) {
+            resp.setStatus(401);
             handleExceptionResolverManager.handle(webRequest, webResponse, e);
         } catch (InvocationTargetException e) {
             e.getCause().printStackTrace();

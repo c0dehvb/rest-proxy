@@ -5,6 +5,7 @@ import com.midea.cmms.rest.proxy.server.WebRequest;
 import com.midea.cmms.rest.proxy.server.mvc.method.HandleMethod;
 import com.midea.cmms.rest.proxy.server.mvc.method.HttpParameterInfo;
 import org.apache.log4j.Logger;
+import org.springframework.core.Ordered;
 
 import java.io.IOException;
 
@@ -58,6 +59,6 @@ public class JsonBodyMethodArgumentResolver extends AbstractMethodArgumentResolv
 
     @Override
     public int getOrder() {
-        return 0;
+        return Ordered.LOWEST_PRECEDENCE - 1;
     }
 }

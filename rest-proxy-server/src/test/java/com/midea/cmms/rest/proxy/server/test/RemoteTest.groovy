@@ -1,6 +1,12 @@
 package com.midea.cmms.rest.proxy.server.test
 
+import com.midea.cmms.base.CryptoUtil
 import com.midea.cmms.base.http.PoolingHttpClient
+
+import java.lang.reflect.Method
+import java.util.concurrent.LinkedBlockingDeque
+import java.util.concurrent.ThreadPoolExecutor
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by liyilin on 2017/7/20.
@@ -8,14 +14,49 @@ import com.midea.cmms.base.http.PoolingHttpClient
 class RemoteTest extends GroovyTestCase {
     private PoolingHttpClient httpClient
     final String HOST = "http://10.16.85.87:8081/rest-proxy"
+//    final String HOST = "http://localhost:8080"
+    final String appKey = "7523a4f1659148a4bc5d03101a84cdf5"
+    final String appSecret = "92d9bfc22897483e8cb0acbc0cc96606"
 
     void setUp() {
         httpClient = new PoolingHttpClient()
         httpClient.init()
     }
 
+    void testAllWhile() {
+        final int SIZE = 5
+        final that = this
+        def methods = RemoteTest.class.declaredMethods
+//        ThreadPoolExecutor poolExecutor = new ThreadPoolExecutor(
+//                SIZE, SIZE, 100, TimeUnit.MILLISECONDS,
+//                new LinkedBlockingDeque<Runnable>()
+//        )
+
+        while(true) {
+            for (Method method : methods) {
+                final m = method
+//                if (m.name.startsWith("test") && m.name != "testAllWhile") {
+//                    poolExecutor.execute(new Runnable() {
+//                        @Override
+//                        void run() {
+//                            print m.name + ": "
+//                            m.invoke(that)
+//                        }
+//                    })
+//                }
+
+                if (m.name.startsWith("test") && m.name != "testAllWhile") {
+                    print m.name + ": "
+                    m.invoke(that)
+                }
+            }
+        }
+    }
+
     void testIntAdd() {
-        final String uri = "/int/add"
+        final long tm = new Date().time
+        final String sign = CryptoUtil.md5String( (appKey + tm + appSecret).getBytes() )
+        final String uri = "/int/add?appKey=${appKey}&tm=${tm}&sign=${sign}"
         final String url = HOST + uri
         final params = [a:1, b:2]
 
@@ -24,7 +65,9 @@ class RemoteTest extends GroovyTestCase {
     }
 
     void testIntAddJson() {
-        final String uri = "/int/add"
+        final long tm = new Date().time
+        final String sign = CryptoUtil.md5String( (appKey + tm + appSecret).getBytes() )
+        final String uri = "/int/add?appKey=${appKey}&tm=${tm}&sign=${sign}"
         final String url = HOST + uri
         final params = [a:1, b:2]
 
@@ -33,7 +76,9 @@ class RemoteTest extends GroovyTestCase {
     }
 
     void testIntSub() {
-        final String uri = "/int/sub"
+        final long tm = new Date().time
+        final String sign = CryptoUtil.md5String( (appKey + tm + appSecret).getBytes() )
+        final String uri = "/int/sub?appKey=${appKey}&tm=${tm}&sign=${sign}"
         final String url = HOST + uri
         final params = [a:1, b:2]
 
@@ -96,7 +141,9 @@ class RemoteTest extends GroovyTestCase {
     }
 
     void testFactionAddJson() {
-        final String uri = "/faction/add"
+        long tm = new Date().time
+        final String sign = CryptoUtil.md5String( (appKey + tm + appSecret).getBytes() )
+        final String uri = "/faction/add?appKey=${appKey}&tm=${tm}&sign=${sign}"
         final String url = HOST + uri
         final params = [[numerator: 1, denominator: 6], [numerator: 1, denominator: 3]]
 

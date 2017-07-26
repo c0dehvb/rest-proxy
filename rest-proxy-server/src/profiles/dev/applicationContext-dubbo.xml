@@ -11,7 +11,7 @@
     <context:property-placeholder location="classpath:config.properties"/>
 
     <dubbo:application name="rest_proxy_consumer"/>
-    <dubbo:consumer check="false" />
+    <dubbo:consumer check="false"/>
 
     <dubbo:registry address="${dubbo.registry.address}" />
 

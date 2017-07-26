@@ -5,6 +5,7 @@ import com.midea.cmms.rest.proxy.server.exception.MethodArgumentHandleException;
 import com.midea.cmms.rest.proxy.server.mvc.method.HandleMethod;
 import com.midea.cmms.rest.proxy.server.mvc.method.HttpParameterInfo;
 import org.apache.log4j.Logger;
+import org.springframework.core.Ordered;
 import org.springframework.validation.DataBinder;
 
 /**
@@ -42,6 +43,6 @@ public class HttpRequestParameterMethodArgumentResolver extends AbstractMethodAr
 
     @Override
     public int getOrder() {
-        return 0;
+        return Ordered.LOWEST_PRECEDENCE - 1;
     }
 }

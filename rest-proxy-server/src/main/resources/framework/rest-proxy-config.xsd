@@ -60,6 +60,7 @@
         <xsd:attribute name="param" type="xsd:string" use="optional"/>
         <xsd:attribute name="requestBody" type="xsd:boolean" default="false"/>
         <xsd:attribute name="pathVariable" type="xsd:boolean" default="false"/>
+        <xsd:attribute name="appSign" type="xsd:boolean"/>
         <xsd:attribute name="dateFormat" type="xsd:string"/>
     </xsd:complexType>
 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <!-- redis -->
+    <context:property-placeholder location="classpath:redis.properties" ignore-unresolvable="true"/>
+
+    <!-- redis -->
+    <!-- NOTE，由于使用 shard，要注意 key 的分布，很大程度上只用作 cache -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="${redis.pool.maxTotal}"/>
+        <property name="maxIdle" value="${redis.pool.maxIdle}"/>
+        <property name="maxWaitMillis" value="${redis.pool.maxWaitMillis}"/>
+        <property name="testOnBorrow" value="${redis.pool.testOnBorrow}"/>
+        <property name="minEvictableIdleTimeMillis" value="${redis.pool.minEvictableIdleTimeMillis}"/>
+    </bean>
+
+    <bean id="jedisShardInfo" class="redis.clients.jedis.JedisShardInfo">
+        <constructor-arg index="0" value="${redis.ip}"/>
+        <constructor-arg index="1" value="${redis.port}"/>
+        <!--<property name="password" value="#{'${redis.pass}'?:null}"/>-->
+    </bean>
+
+    <!--声明 sharded jedis pool，适用于作为 cache 使用 -->
+    <bean id="shardedJedisPool" class="redis.clients.jedis.ShardedJedisPool" destroy-method="destroy">
+        <constructor-arg index="0" ref="jedisPoolConfig"/>
+        <constructor-arg index="1">
+            <list>
+                <ref bean="jedisShardInfo"/>
+                <!--<ref bean="jedisShardInfo2"/>-->
+            </list>
+        </constructor-arg>
+    </bean>
+    <bean id="shardedJedisTmpl" class="com.midea.cmms.base.redis.ShardedJedisTmplFactoryBean" init-method="init">
+        <property name="pool" ref="shardedJedisPool"/>
+    </bean>
+
+    <bean id="cacheUtil" class="com.midea.cmms.base.CacheUtil">
+        <constructor-arg ref="shardedJedisTmpl"/>
+    </bean>
+</beans>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:property-placeholder location="classpath:config.properties" ignore-unresolvable="true"/>
+    <context:annotation-config/>
+
+    <!-- MethodArgumentResolvers -->
+    <bean class="com.midea.cmms.rest.proxy.server.mvc.argument.NullMethodArgumentResolver"/>
+    <bean class="com.midea.cmms.rest.proxy.server.mvc.argument.PathVariableMethodArgumentResolver"/>
+    <bean class="com.midea.cmms.rest.proxy.server.mvc.argument.RequestBodyMethodArgumentResolver"/>
+    <bean class="com.midea.cmms.rest.proxy.server.mvc.argument.AppSignatureMethodArgumentResolver"/>
+    <bean class="com.midea.cmms.rest.proxy.server.mvc.argument.ComplexMethodArgumentResolver">
+        <constructor-arg index="0">
+            <bean class="com.midea.cmms.rest.proxy.server.mvc.argument.HttpRequestParameterMethodArgumentResolver"/>
+        </constructor-arg>
+        <constructor-arg index="1">
+            <bean class="com.midea.cmms.rest.proxy.server.mvc.argument.JsonBodyMethodArgumentResolver"/>
+        </constructor-arg>
+    </bean>
+
+    <!-- ViewResolvers -->
+    <bean class="com.midea.cmms.rest.proxy.server.mvc.view.GsonViewResolver"/>
+
+    <!-- HandleExceptionResolvers -->
+    <bean class="com.midea.cmms.rest.proxy.server.mvc.exception.DefaultHandleExceptionResolver"/>
+
+    <!-- Interceptors -->
+    <bean class="com.midea.cmms.rest.proxy.server.mvc.interceptor.CorsInterceptor"/>
+    <bean class="com.midea.cmms.rest.proxy.server.sign.AppSignInterceptor">
+        <property name="appSignChecker" ref="appSignChecker"/>
+    </bean>
+
+    <!-- Other beans -->
+    <bean id="appSignChecker" class="com.midea.cmms.rest.proxy.server.sign.AppSignChecker">
+        <property name="allAppInfoApiUrl" value="${platform.sign.allAppInfoApi.url}"/>
+        <property name="cryptoSequence" value="${platform.sign.cryptoSeq}"/>
+        <property name="cacheUtil" ref="cacheUtil"/>
+        <property name="poolingHttpClient" ref="poolingHttpClient"/>
+        <property name="appKey" value="${platform.appKey}"/>
+        <property name="appSecret" value="${platform.appSecret}"/>
+    </bean>
+</beans>

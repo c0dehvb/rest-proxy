@@ -3,7 +3,7 @@
         xmlns="http://www.midea.com/cmms/rest-proxy-config"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:beans="http://www.springframework.org/schema/beans"
-        xsi:schemaLocation="http://www.midea.com/cmms/rest-proxy-config framework/rest-proxy-config.xsd
+        xsi:schemaLocation="http://www.midea.com/cmms/rest-proxy-config http://www.midea.com/cmms/rest-proxy-config.xsd
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <service class="com.midea.cmmessage.core.api.PictureServiceFacade" mapping="/picture">
@@ -206,9 +206,10 @@
     
     <!-- sample-project -->
     <service class="com.midea.cmms.sample.api.IntegerCalcServiceFacade" mapping="/int">
-        <action method="post" name="add" mapping="/add" cors-ref="cors_1">
+        <action method="post" name="add" mapping="/add" cors-ref="cors_1" sign="true">
             <arg param="a" />
             <arg param="b" />
+            <arg appSign="true"/>
         </action>
 
         <action method="post" name="sub" mapping="/sub">
@@ -232,9 +233,10 @@
     </service>
 
     <service class="com.midea.cmms.sample.api.FactionCalcServiceFacade" mapping="/faction">
-        <action method="post" name="add" mapping="/add" cors-ref="cors_1">
+        <action method="post" name="add" mapping="/add" cors-ref="cors_1" sign="true">
             <arg param="a" />
             <arg param="b" />
+            <arg appSign="true"/>
         </action>
 
         <action method="post" name="sub" mapping="/sub">

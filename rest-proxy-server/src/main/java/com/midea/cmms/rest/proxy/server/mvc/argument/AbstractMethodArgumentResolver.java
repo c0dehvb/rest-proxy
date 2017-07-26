@@ -2,7 +2,7 @@ package com.midea.cmms.rest.proxy.server.mvc.argument;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.midea.cmms.rest.proxy.server.Global;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.validation.DataBinder;
 
@@ -15,13 +15,11 @@ import java.util.Date;
  */
 public abstract class AbstractMethodArgumentResolver implements MethodArgumentResolver {
 
-    private static final String DEFAULT_DATE_PATTERN = "mvc.argument.datepattern";
-
     private String defaultDatePattern;
 
-    public AbstractMethodArgumentResolver() {
-        defaultDatePattern = Global.getConfig().getProperty(DEFAULT_DATE_PATTERN);
-        if (defaultDatePattern == null) defaultDatePattern = "yyyy-MM-dd HH:mm:ss";
+    @Value("${mvc.argument.datepattern:'yyyy-MM-dd HH:mm:ss'}")
+    public void setDefaultDatePattern(String defaultDatePattern) {
+        this.defaultDatePattern = defaultDatePattern;
     }
 
     protected DataBinder getDataBinder(String datePattern) {
