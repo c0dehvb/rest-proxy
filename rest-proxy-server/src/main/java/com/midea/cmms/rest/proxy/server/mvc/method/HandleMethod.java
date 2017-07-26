@@ -6,7 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * Created by liyilin on 2017/7/4.
+ * 方法映射的基本操作单元
  */
 public class HandleMethod {
 //    private static final Logger LOG = Logger.getLogger(HandleMethod.class.getName());

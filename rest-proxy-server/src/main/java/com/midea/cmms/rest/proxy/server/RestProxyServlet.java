@@ -94,11 +94,10 @@ public class RestProxyServlet extends ContextServlet {
 
     @Override
     public void init() throws ServletException {
-
-        LOG.info("初始化开始");
-        super.init();
-
         try {
+            LOG.info("初始化开始");
+            super.init();
+
             initMethodMappingHandler();
             initMethodArgumentResolvers();
             initViewResolvers();
@@ -106,7 +105,7 @@ public class RestProxyServlet extends ContextServlet {
             initInterceptors();
         } catch (Throwable e) {
             LOG.error("Servlet初始化错误：" + e.getMessage());
-//            System.exit(0);
+            e.printStackTrace();
         }
 
         LOG.info("初始化结束");

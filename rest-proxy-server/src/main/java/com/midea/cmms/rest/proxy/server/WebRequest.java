@@ -4,6 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import org.springframework.util.StreamUtils;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +15,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * Created by liyilin on 2017/7/7.
@@ -28,7 +31,9 @@ public class WebRequest extends HttpServletRequestWrapper {
     public WebRequest(HttpServletRequest request) {
         super(request);
 
-        String defaultDateFormat = Global.getConfig().getProperty(DEFAULT_DATE_PATTERN);
+        WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
+        Properties properties = webApplicationContext.getBean(Properties.class);
+        String defaultDateFormat = properties.getProperty(DEFAULT_DATE_PATTERN);
         if (defaultDateFormat == null) defaultDateFormat = "yyyy-MM-dd HH:mm:ss";
 
         GsonBuilder gsonBuilder = new GsonBuilder();

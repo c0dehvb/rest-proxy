@@ -31,6 +31,7 @@ public class AppSignatureMethodArgumentResolver extends AbstractMethodArgumentRe
 
     @Override
     public Object resolve(WebRequest request, HandleMethod method, HttpParameterInfo param) throws Exception {
+        // 从表单参数重获取签名信息
         String appIdStr = request.getParameter(PARAM_APP_ID);
         String appKeyStr = request.getParameter(PARAM_APP_KEY);
         String tmStr = request.getParameter(PARAM_TIMESTAMP);

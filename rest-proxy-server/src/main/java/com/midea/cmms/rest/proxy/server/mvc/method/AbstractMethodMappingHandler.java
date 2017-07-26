@@ -11,7 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by liyilin on 2017/7/3.
+ * 抽象方法映射处理器。
+ * 负责进行方法映射查询的逻辑，对方法映射配置的加载在派生类中完成。
  */
 public abstract class AbstractMethodMappingHandler implements MethodMappingHandler {
     private static final Logger LOG = Logger.getLogger(AbstractMethodMappingHandler.class);

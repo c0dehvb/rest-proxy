@@ -31,12 +31,6 @@
         <skipTests>true</skipTests>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-
-        </dependencies>
-    </dependencyManagement>
-
     <distributionManagement>
         <snapshotRepository>
             <id>nexus-snapshots</id>

@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 
 /**
- * Created by liyilin on 2017/7/11.
+ * 默认异常处理器
  */
 public class DefaultHandleExceptionResolver implements HandleExceptionResolver {
 

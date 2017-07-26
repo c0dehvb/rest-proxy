@@ -7,7 +7,7 @@ import com.midea.cmms.rest.proxy.server.WebResponse;
 import java.lang.reflect.Method;
 
 /**
- * Created by liyilin on 2017/7/7.
+ * 把方法运行结果以Json串的形式响应
  */
 public class GsonViewResolver implements ViewResolver {
 

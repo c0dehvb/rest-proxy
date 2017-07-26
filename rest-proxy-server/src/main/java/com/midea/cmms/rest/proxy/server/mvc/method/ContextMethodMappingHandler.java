@@ -6,7 +6,7 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * Created by liyilin on 2017/7/18.
+ * 通过Spring上下文获取RestProxy的方法映射配置
  */
 public class ContextMethodMappingHandler extends AbstractMethodMappingHandler {
     private ApplicationContext applicationContext;

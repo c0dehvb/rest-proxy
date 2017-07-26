@@ -13,7 +13,7 @@ import javax.servlet.ServletContext;
 import java.lang.invoke.MethodHandles;
 
 /**
- * Created by liyilin on 2017/7/25.
+ * 签名认真拦截器。某些方法必须经过签名认证的话，必须先通过签名认证才能执行方法。
  */
 public class AppSignInterceptor implements Interceptor {
     private static final Logger LOG = Logger.getLogger(MethodHandles.lookup().lookupClass());
@@ -72,42 +72,6 @@ public class AppSignInterceptor implements Interceptor {
         appSign.setSignature(signStr);
 
         return appSign;
-    }
-
-    public String getPARAM_APP_ID() {
-        return PARAM_APP_ID;
-    }
-
-    public void setPARAM_APP_ID(String PARAM_APP_ID) {
-        this.PARAM_APP_ID = PARAM_APP_ID;
-    }
-
-    public String getPARAM_APP_KEY() {
-        return PARAM_APP_KEY;
-    }
-
-    public void setPARAM_APP_KEY(String PARAM_APP_KEY) {
-        this.PARAM_APP_KEY = PARAM_APP_KEY;
-    }
-
-    public String getPARAM_TIMESTAMP() {
-        return PARAM_TIMESTAMP;
-    }
-
-    public void setPARAM_TIMESTAMP(String PARAM_TIMESTAMP) {
-        this.PARAM_TIMESTAMP = PARAM_TIMESTAMP;
-    }
-
-    public String getPARAM_SIGNATURE() {
-        return PARAM_SIGNATURE;
-    }
-
-    public void setPARAM_SIGNATURE(String PARAM_SIGNATURE) {
-        this.PARAM_SIGNATURE = PARAM_SIGNATURE;
-    }
-
-    public AppSignChecker getAppSignChecker() {
-        return appSignChecker;
     }
 
     public void setAppSignChecker(AppSignChecker appSignChecker) {

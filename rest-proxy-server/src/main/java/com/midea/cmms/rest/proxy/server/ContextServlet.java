@@ -44,7 +44,7 @@ public class ContextServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         initWebApplicationContext();
-        initConfigProperties();
+//        initConfigProperties();
     }
 
     protected ApplicationContext getWebApplicationContext() {
@@ -76,9 +76,9 @@ public class ContextServlet extends HttpServlet {
         getServletContext().setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, context);
     }
 
-    private void initConfigProperties() {
-        configProperties = getWebApplicationContext().getBean(Properties.class);
-        LOG.info("成功初始化配置对象" + configProperties);
-        Global.setConfig(configProperties);
-    }
+//    private void initConfigProperties() {
+//        configProperties = getWebApplicationContext().getBean(Properties.class);
+//        LOG.info("成功初始化配置对象" + configProperties);
+//        Global.setConfig(configProperties);
+//    }
 }
